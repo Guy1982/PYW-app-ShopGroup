@@ -1,0 +1,32 @@
+﻿@using SywApplicationShopGroup.Domain.Auth
+@model SywApplicationShopGroup.Web.UI.Models.ProductViewModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = null;
+}
+
+<h2>Index Shop Group Product</h2>
+
+@if (Model.UserState != UserState.Authorized)
+{
+    <p>
+        <!--input id="CreateShopGroup" type="button" value="Create Shop Group"></!--input-->
+    </p>
+
+}
+else
+{
+    if (Model.UserState != UserState.Anonymous)
+    {
+        <p>Hi @Model.UserName, <br> In order to </p>
+    }
+    else
+    {
+         <p>Hi, <br> In order to create a Shop Group you need to install the Shop Group application </p>
+    }
+  
+    <p>
+        <input id="CreateShopGroup" type="button" onclick="window.location.href = 'Product/CreateShopGroup?token=@Model.SessionToken&productId=@Model.ProductId';" value="Create Shop Group"></input>
+    </p>
+}

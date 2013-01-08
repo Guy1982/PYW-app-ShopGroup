@@ -1,0 +1,61 @@
+﻿@model SywApplicationShopGroup.Web.UI.Models.ShopGroupHomeScreenModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutHomePage.cshtml";
+}
+
+<h2>Regular canvas page</h2>
+
+<p>This is a regular canvas page. Can contain anything you want for your application</p> 
+<p>Every canvas (everyone of them!) receives a token for you to use to access the <a href="http://platform.shopyourway.com" target="_blank">ShopYourWay Platform APIs</a></p>
+<div >
+	<h3>For example:</h3>
+	<div>
+		Using /users/current API the application now knows that you are:
+		<div class="user">
+			<a class="image-link" href="@Model.ProfileUrl" target="_top"><img alt="@Model.MemberName image" src="@Model.ImageUrl"/></a>	
+            <div class="details">
+                <div>Id: @Model.Id</div>
+                
+				<div>MemberName: <a href="@Model.ProfileUrl" target="_top">@Model.MemberName</a></div>
+                <div>
+                    @if (Model.Following.Any())
+                    {
+                        var oneOfFollowing = Model.Following.Last();
+                        <span>You follow @Model.Following.Count. one of them is <a href ="@oneOfFollowing.ProfileUrl">@oneOfFollowing.MemberName</a></span> 
+                    }  
+                    else
+                    {
+                        <span>You don't follow anybody</span>
+                    }
+                </div>
+                <div>
+                    @if (Model.Followers.Any())
+                    {
+                        var oneOfFollowers = Model.Followers.Last();
+                        <span>You follow @Model.Followers.Count. one of them is <a href ="@oneOfFollowers.ProfileUrl">@oneOfFollowers.MemberName</a></span> 
+                    }  
+                    else
+                    {
+                        <span>You don't have any followers</span>
+                    }
+                </div>
+                
+                <div>
+					@if (Model.ShopGroups.Any())
+					{
+                        var oneOfFollowers = Model.ShopGroups.Last();
+					    <span>You are a members of @Model.ShopGroups.Count Shop Groups. one of them is </span> 
+					}  
+					else
+					{
+						<span>You don't have any Shop Groups</span>
+					}
+				</div>
+            </div>
+		</div>
+	</div>
+</div>
+<p>To learn more about the ShopYourWay Platform APIs go to <a href="https://developer.shopyourway.com/display/platdev/The+API" target="_blank">ShopYourWay Developers site</a></p>
+<p>Canvas is available via http://base-app-url/</p>

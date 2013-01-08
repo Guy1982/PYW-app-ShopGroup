@@ -1,0 +1,50 @@
+﻿@model SywApplicationShopGroup.Web.UI.Models.ShopGroupHomeScreenModel
+@{
+    ViewBag.Title = "title";
+    Layout = "~/Views/Shared/_LayoutHomePage.cshtml";
+}
+
+<h2>title</h2>
+
+<div class="Productcontainer">
+
+    <div>
+
+        <div class="Productimage">
+            @{
+                if (@Model.Product != null)
+                {
+                <img src="@Model.Product.ImageUrl" width="200px" height="200px"/>
+                }
+            }
+        </div>
+
+
+
+        <div class="Productdetails">
+            @{
+                if (Model.Product != null)
+                {
+
+                <p>Product Name:@Model.Product.Name</p>
+
+                <p>Price:@Model.Product.Price </p>
+
+                <p>Product Page:@Model.Product.ProductUrl</p>
+                }
+                else
+                {
+                <p>Product detiles not avilable</p>
+                }
+            }
+
+        </div>
+        <br />
+
+    </div>
+
+    <div class="Productimage_desc">This is the description This is the description This is the description</div>
+
+
+
+</div>

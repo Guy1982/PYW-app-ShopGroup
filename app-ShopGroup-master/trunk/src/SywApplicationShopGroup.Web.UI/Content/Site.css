@@ -1,0 +1,68 @@
+﻿.menu-bar {
+    height: 100%;
+    float: left;
+}
+
+.main-page {
+    background-color: #00ffee;
+    height: 100%;
+    float: left;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-family: sans-serif;
+    font-size: 1em;
+    font-weight: normal;
+    font-style: normal;
+    text-decoration: none;
+}
+
+
+
+
+.Productcontainer {
+    width: 405px;
+    height: 320px;
+    border: 1px solid black;
+    position: relative;
+    margin: 10px;
+    padding: 15px;
+}
+
+
+.Productimage {
+    background: blue;
+    width: 200px;
+    height: 200px; /* add 20px for desciption */
+    position: relative;
+    float: left;
+}
+
+
+.Productimage_desc {
+    position: relative;
+    height: 20px;
+    float: left;
+    margin-top: 20px;
+}
+
+
+.Productdetails {
+    /*position:relative;*/
+    margin-left: 210px; /* add 10px to img width, will give us decent padding */
+}
+
+
+    .Productdetails p { /* Since i removed styling, this will add padding inbetween each of our paragraphs */
+        padding-bottom: 10px;
+    }
+
+    .menu {
+        font-size: medium;
+        font-style: italic;
+    }

@@ -1,0 +1,24 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>@ViewBag.Title</title>
+    <link href="@Url.Content("~/static/css/Site.css")" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="//www.shopyourway.com/platform/loader" ></script>
+    <script src="@Url.Content("~/static/js/jquery-1.7.1.min.js")" type="text/javascript"></script>
+
+</head>
+<body>
+    <div class="page">
+        <div id="header">
+            <div id="title">
+                <h1>Shop Group2</h1>
+            </div>
+        </div>
+        <div id="main">
+            @RenderBody()
+        </div>
+        <div id="footer">
+        </div>
+    </div>
+</body>
+</html>

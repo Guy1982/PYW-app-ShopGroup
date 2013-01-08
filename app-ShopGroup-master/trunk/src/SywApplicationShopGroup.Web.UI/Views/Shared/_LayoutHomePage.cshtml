@@ -1,0 +1,67 @@
+﻿@model SywApplicationShopGroup.Web.UI.Models.ShopGroupHomeScreenModel
+<!DOCTYPE html>
+<html>
+<head>
+    <title>@ViewBag.Title</title>
+    <link href="@Url.Content("~/static/css/Site.css")" rel="stylesheet" type="text/css" />
+    <script src="@Url.Content("~/static/js/jquery-1.7.1.min.js")" type="text/javascript"></script>
+    <script type="text/javascript" src="//www.shopyourway.com/platform/loader"></script>
+    <link href="../Content/Site.css" rel="stylesheet" />
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" />
+    <script src="http://code.jquery.com/jquery-1.8.3.js"></script>
+    <script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
+    <link rel="stylesheet" href="/resources/demos/style.css" />
+    <script>
+        $(function () {
+            $("#menu").menu();
+        });
+    </script>
+    <style>
+        .ui-menu {
+            width: 150px;
+        }
+    </style>
+</head>
+<body>
+    <div class="page">
+        <div id="menu-bar" class="menu-bar">
+            <ul id="menu">
+                <li><a href="#">Create new Shop Group</a></li>
+                <li>
+                    <a href="#">My Shop Group</a>
+                    <ul>
+                        @{
+                            if (Model.ShopGroups == null || Model.ShopGroups.Count() == 0)
+                            {
+                               <li class="ui-state-disabled"><a href="#">No avilable Shop Groups</a></li> 
+                            }
+                            else
+                            {
+                                foreach(var group in Model.ShopGroups)
+                                {
+                                   <li><a href="../home/ShowShopGroup?shopGroupId=@group.Id&userId=@Model.Id">@group.Name</a></li> 
+                                }
+                            }
+                        }
+                       
+                    </ul>
+                </li>
+                <li><a href="#">Join a Shop Group</a></li>
+                <li><a href="#">How Does It Work</a></li>
+            </ul>
+        </div>
+        <div id="main-page" class="main-page">
+            <div id="header">
+                <div id="title">
+                    <h1>Shop Group</h1>
+                </div>
+            </div>
+            <div id="main">
+                @RenderBody()
+            </div>
+            <div id="footer">
+            </div>
+        </div>
+    </div>
+</body>
+</html>

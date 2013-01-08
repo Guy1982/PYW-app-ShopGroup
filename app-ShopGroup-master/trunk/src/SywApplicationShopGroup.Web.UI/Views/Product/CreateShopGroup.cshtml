@@ -1,0 +1,67 @@
+﻿@model SywApplicationShopGroup.Web.UI.Models.ProductViewModel
+@{
+    ViewBag.Title = "Group";
+    Layout = "~/Views/Shared/_Layout.cshtml"; 
+}
+
+
+<script type="text/javascript">
+    function CheckForm() {
+        var isValid = true;
+        
+        var Messages = "";
+        if ($('#txtGroupName').val() == "") {
+            Messages = "You must write something\n";
+            isValid = false;
+        }
+ 
+        if ($('#chkTOS').is(':checked') == false) {
+            Messages = Messages +  "You must accept the TOS";
+            isValid = false;
+        }
+        
+        if (isValid == false)
+            {
+            alert(Messages);
+        }
+        else {
+            SetAjaxLoader();
+        }
+        return isValid;
+
+    }
+    
+    function SetAjaxLoader() {
+        $(".ajaxloader").show();
+        
+    }
+
+</script>
+
+
+<h2>Shop Group was created</h2>
+
+@if (Model == null)
+{
+    <p>
+        <label>Session expired. Please close the window and try again</label><br />
+         <input id="CloseShopGroupWindow" type="button" onclick="Platform.Canvas.closeDialog()" value="Close Window"></input>
+    </p>
+
+}
+else
+{
+
+    <div class="ajaxloader" style="display:none;" align="center"><img src="../../Content/images/ajax-loader.gif"/></div>
+    <form action="CreateShopGroupAction" method="POST" onsubmit="return CheckForm();">
+        <input type="hidden" id="token" name="token" value="@Model.SessionToken">
+        <input type="hidden" id="productId" name="productId" value="@Model.ProductId">
+        <label>Set your group name:</label><br />
+        <input type="text" id="txtGroupName" name="txtGroupName" /><br />
+        <span>
+            <input type="checkbox" id="chkTOS" name="chkTOS" value="1" />I agree to the <a href="#">Terms and Conditions</a>...</span><br />
+        <input type="submit" value="Create Group" name="btnCreateGroup" />
+    </form>
+    <br />
+}
+
