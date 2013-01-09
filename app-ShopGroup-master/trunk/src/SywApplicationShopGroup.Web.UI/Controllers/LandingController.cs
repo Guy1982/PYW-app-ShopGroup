@@ -1,5 +1,4 @@
 ﻿using System.Web.Mvc;
-using Platform.Client.Common.Context;
 using SywApplicationShopGroup.Domain;
 using SywApplicationShopGroup.Domain.AppActions;
 using SywApplicationShopGroup.Domain.Auth;
@@ -16,13 +15,12 @@ namespace SywApplicationShopGroup.Web.UI.Controllers
         private readonly IAppActionsApi _appActionsApi;
 
 
-	    public LandingController()
-	    {
-            _routes = new Routes();
-            var contextProvider = new HttpContextProvider();
-            _authApi = new AuthApi(contextProvider);
-            _usersApi = new UsersApi(contextProvider);
-            _appActionsApi = new AppActionsApi(contextProvider);
+        public LandingController(Routes routes, IAuthApi authApi, IUsersApi usersApi, IAppActionsApi appActionsApi)
+        {
+            _routes = routes;
+            _authApi = authApi;
+            _usersApi = usersApi;
+            _appActionsApi = appActionsApi;
 	    }
 
 	    public ActionResult Index()

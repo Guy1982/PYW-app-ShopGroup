@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Web.Mvc;
 using Platform.Client;
-using Platform.Client.Common.Context;
 using Platform.Client.Configuration;
-using SywApplicationShopGroup.Domain.Configuration;
 using SywApplicationShopGroup.Domain.Entities;
 using SywApplicationShopGroup.Domain.PlatformApiServices;
 using SywApplicationShopGroup.Domain.Repositorys;
@@ -17,23 +15,22 @@ namespace SywApplicationShopGroup.Web.UI.Controllers
     {
         private readonly IPlatformProxy _platformProxy;
 		private readonly IApplicationSettings _applicationSettings;
-		private readonly PlatformTokenProvider _platformTokenProvider;
+		private readonly IPlatformTokenProvider _platformTokenProvider;
 	    private readonly IPlatformSettings _platformSettings;
         private readonly IPlatformRoutes _platformRoutes;
         private readonly IUsersApi _usersApi;
         private readonly IGroupMemberRepository _groupMemberRepository;
 
-	    public PostLoginController()
-	    {
-            _platformProxy = new PlatformProxy(new PlatformSettings(),
-                                      new ApplicationSettings(),
-                                      new PlatformTokenProvider(new HttpContextProvider()));
-		    _applicationSettings = new ApplicationSettings();
-		    _platformSettings = new PlatformSettings();
-		    _platformTokenProvider = new PlatformTokenProvider(new HttpContextProvider());
-            _platformRoutes = new PlatformRoutes(new ApplicationSettings(), new PlatformSettings());
-            _usersApi = new UsersApi(new HttpContextProvider());
-            _groupMemberRepository = new GroupMemberRepository();
+        public PostLoginController(IPlatformProxy platformProxy, IApplicationSettings applicationSettings, IPlatformTokenProvider platformTokenProvider,
+             IPlatformSettings platformSettings, IPlatformRoutes platformRoutes, IUsersApi usersApi, IGroupMemberRepository groupMemberRepository)
+        {
+            _platformTokenProvider = platformTokenProvider;
+            _platformProxy = platformProxy;
+            _applicationSettings = applicationSettings;
+            _platformSettings = platformSettings;
+            _platformRoutes = platformRoutes;
+            _usersApi = usersApi;
+            _groupMemberRepository = groupMemberRepository;
 	    }
 
 	    public ActionResult Index()

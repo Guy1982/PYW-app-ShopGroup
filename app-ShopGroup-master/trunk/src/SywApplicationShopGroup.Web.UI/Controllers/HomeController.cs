@@ -4,10 +4,8 @@ using System.Configuration;
 using System.Linq;
 using System.Web.Mvc;
 using Platform.Client;
-using Platform.Client.Common.Context;
 using Platform.Client.Configuration;
 using SywApplicationShopGroup.Domain.Auth;
-using SywApplicationShopGroup.Domain.Configuration;
 using SywApplicationShopGroup.Domain.Entities;
 using SywApplicationShopGroup.Domain.Products;
 using SywApplicationShopGroup.Domain.Repositorys;
@@ -46,16 +44,7 @@ namespace SywApplicationShopGroup.Web.UI.Controllers
 
         public ActionResult Index()
         {
-            try
-            {
-                var appId = _applicationSettings.AppId;
-                var appSecret = _applicationSettings.AppSecret;
-            }
-            catch (ConfigurationErrorsException)
-            {
-                return Redirect("/landing");
-            }
-
+            
             if (_platformTokenProvider.Get() == null || _authApi.GetUserState() != UserState.Authorized)
                 return Redirect("/landing");
 
@@ -67,7 +56,6 @@ namespace SywApplicationShopGroup.Web.UI.Controllers
                 ValidateGroupMember(out groupMember);
             
             groupMember.Token = userToken;
-            
             _groupMemberRepository.AddOrSaveNewGroupMember(groupMember);
 
             var currentUserFollowing = _usersApi.GetFollowing(currentUser.Id);
@@ -95,7 +83,7 @@ namespace SywApplicationShopGroup.Web.UI.Controllers
             var currentUserFollowing = _usersApi.GetFollowing(currentUser.Id);
             var currentUserFollowers = _usersApi.GetFollowers(currentUser.Id);
             var group = _shopGroupRepository.GetShoupGroup(shopGroupId);
-            var currentProduct = _productsApi.Get(new[] { (long)group.ProductId }).FirstOrDefault();
+            var currentProduct = _productsApi.Get(new[] { group.ProductId }).FirstOrDefault();
 
             return View(ToModel(currentUser, currentProduct, currentUserFollowing, currentUserFollowers));
         }

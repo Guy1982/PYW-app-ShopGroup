@@ -4,26 +4,29 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using Castle.MicroKernel;
 
-public class WindsorControllerFactory : DefaultControllerFactory
+namespace SywApplicationShopGroup.Web.UI.Plumbing
 {
-    private readonly IKernel kernel;
-
-    public WindsorControllerFactory(IKernel kernel)
+    public class WindsorControllerFactory : DefaultControllerFactory
     {
-        this.kernel = kernel;
-    }
+        private readonly IKernel _kernel;
 
-    public override void ReleaseController(IController controller)
-    {
-        kernel.ReleaseComponent(controller);
-    }
-
-    protected override IController GetControllerInstance(RequestContext requestContext, Type controllerType)
-    {
-        if (controllerType == null)
+        public WindsorControllerFactory(IKernel kernel)
         {
-            throw new HttpException(404, string.Format("The controller for path '{0}' could not be found.", requestContext.HttpContext.Request.Path));
+            this._kernel = kernel;
         }
-        return (IController)kernel.Resolve(controllerType);
+
+        public override void ReleaseController(IController controller)
+        {
+            _kernel.ReleaseComponent(controller);
+        }
+
+        protected override IController GetControllerInstance(RequestContext requestContext, Type controllerType)
+        {
+            if (controllerType == null)
+            {
+                throw new HttpException(404, string.Format("The controller for path '{0}' could not be found.", requestContext.HttpContext.Request.Path));
+            }
+            return (IController)_kernel.Resolve(controllerType);
+        }
     }
 }

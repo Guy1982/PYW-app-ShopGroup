@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Web.Mvc;
 using Platform.Client;
-using Platform.Client.Common.Context;
 using SywApplicationShopGroup.Domain.Auth;
 using SywApplicationShopGroup.Domain.Entities;
-using SywApplicationShopGroup.Domain.Products;
 using SywApplicationShopGroup.Domain.Repositorys;
 using SywApplicationShopGroup.Domain.Users;
 using SywApplicationShopGroup.Domain.WallPublish;
@@ -24,16 +22,17 @@ namespace SywApplicationShopGroup.Web.UI.Controllers
 
         
         
-        public  ProductController()
+        public  ProductController(IShopGroupRepository shopGroupRepository, IPlatformTokenProvider platformTokenProvider,IUsersApi usersApi,
+            IShopGroupWallPublishApi shopGroupWallPublishApi, IAuthApi authApi, IGroupMemberRepository groupMemberRepository, IShopGroupFromInputValidator shopGroupFromInputValidator)
+
         {
-            var contextProvider = new HttpContextProvider();
-            _authApi = new AuthApi(contextProvider);
-            _usersApi = new UsersApi(contextProvider);
-            _shopGroupRepository = new ShopGroupRepository();
-            _platformTokenProvider = new PlatformTokenProvider(contextProvider);
-            _shopGroupFromInputValidator = new ShopGroupFromInputValidator();
-            _groupMemberRepository = new GroupMemberRepository();
-           _shopGroupWallPublishApi = new ShopGroupWallPublishApi(new WallPublishApi(contextProvider), new ProductsApi(contextProvider) );
+            _authApi = authApi;
+            _usersApi = usersApi;
+            _shopGroupRepository = shopGroupRepository;
+            _platformTokenProvider = platformTokenProvider; 
+            _shopGroupFromInputValidator = shopGroupFromInputValidator;
+            _groupMemberRepository = groupMemberRepository;
+            _shopGroupWallPublishApi = shopGroupWallPublishApi;
         }
  
 
