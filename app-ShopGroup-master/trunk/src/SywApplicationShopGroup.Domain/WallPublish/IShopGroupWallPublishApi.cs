@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 using SywApplicationShopGroup.Domain.Entities;
 using SywApplicationShopGroup.Domain.Products;
 
@@ -16,11 +17,13 @@ namespace SywApplicationShopGroup.Domain.WallPublish
     {
         private readonly IWallPublishApi _wallPublishApi;
         private readonly IProductsApi _productsApi;
+        private readonly Routes _routes;
 
-        public ShopGroupWallPublishApi(IWallPublishApi wallPublishApi, IProductsApi productsApi)
+        public ShopGroupWallPublishApi(Routes routes, IWallPublishApi wallPublishApi, IProductsApi productsApi)
         {
             _wallPublishApi = wallPublishApi;
             _productsApi = productsApi;
+            _routes = routes;
         }
 
         public void PublishNewShopGroupStroy(ShopGroup group)
@@ -29,7 +32,10 @@ namespace SywApplicationShopGroup.Domain.WallPublish
 
             var adminUser = group.Admin;
             var productList = _productsApi.Get(new List<long> { group.ProductId });
-            _wallPublishApi.PublishStory("Shop Group", adminUser.Name + " had created new Shop Group: " + group.Name, productList[0].ImageUrl);
+            
+            var html = new StringBuilder();
+            var link = "[Join Group Now](" + _routes.JoinGroup(group.Id)+ ")";
+            var result = _wallPublishApi.PublishStory("Shop Group", adminUser.Name + " had created new Shop Group: " + group.Name +". "+ link , productList[0].ImageUrl);
         }
 
         public void SendWallPsotToFriends(ShopGroup group, GroupMember member)

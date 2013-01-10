@@ -1,8 +1,34 @@
-﻿@{
+﻿@using SywApplicationShopGroup.Domain.Repositorys
+@model SywApplicationShopGroup.Web.UI.Models.BuildNewGroupErrorViewModel
+@{
     ViewBag.Title = "Index";
 }
 
-<h3>There was an error in the Shop Group creation process. Please close the window and try again</h3>
+<h3>There was an error in the Shop Group creation process. </h3>
+
+@{
+    
+    switch (@Model.ErrorCode)
+    {
+        case ShopGroupBuilder.BuildShopGroupResult.FailGeneral:
+    <label>
+        Please close the window and try again</label>
+            break;
+        case ShopGroupBuilder.BuildShopGroupResult.FailInputError:
+    <label>
+        Please enter Group name and try again</label>
+            break;
+
+
+        case ShopGroupBuilder.BuildShopGroupResult.FailUserNotKnown:
+    <label>Session expired. Please close the Shop Group window and try again. </label>
+            break;
+        default:
+    <label>Sorry, general error</label>
+            break;
+    }
+ }
+
 
 <p>
     <input id="CloseShopGroupWindow" type="button" onclick="Platform.Canvas.closeDialog()" value="Close Shop Group Window"></input>

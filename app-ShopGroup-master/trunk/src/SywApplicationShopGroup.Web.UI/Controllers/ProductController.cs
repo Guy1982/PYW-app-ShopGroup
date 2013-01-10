@@ -2,7 +2,6 @@
 using System.Web.Mvc;
 using Platform.Client;
 using SywApplicationShopGroup.Domain.Auth;
-using SywApplicationShopGroup.Domain.Entities;
 using SywApplicationShopGroup.Domain.Repositorys;
 using SywApplicationShopGroup.Domain.Users;
 using SywApplicationShopGroup.Domain.WallPublish;
@@ -12,32 +11,23 @@ namespace SywApplicationShopGroup.Web.UI.Controllers
 {
     public class ProductController : Controller
     {
-        private readonly IAuthApi _authApi;
         private readonly IUsersApi _usersApi;
-        private readonly IShopGroupRepository _shopGroupRepository;
-        private readonly IGroupMemberRepository _groupMemberRepository;
         private readonly IPlatformTokenProvider _platformTokenProvider;
         private readonly IShopGroupFromInputValidator _shopGroupFromInputValidator;
-        private readonly IShopGroupWallPublishApi _shopGroupWallPublishApi;
+        private readonly IShopGroupBuilder _shopGroupBuilder;
 
-        
-        
-        public  ProductController(IShopGroupRepository shopGroupRepository, IPlatformTokenProvider platformTokenProvider,IUsersApi usersApi,
-            IShopGroupWallPublishApi shopGroupWallPublishApi, IAuthApi authApi, IGroupMemberRepository groupMemberRepository, IShopGroupFromInputValidator shopGroupFromInputValidator)
-
+        public ProductController(IPlatformTokenProvider platformTokenProvider, IUsersApi usersApi, IShopGroupBuilder shopGroupBuilder,
+              IShopGroupFromInputValidator shopGroupFromInputValidator)
         {
-            _authApi = authApi;
             _usersApi = usersApi;
-            _shopGroupRepository = shopGroupRepository;
-            _platformTokenProvider = platformTokenProvider; 
+            _platformTokenProvider = platformTokenProvider;
             _shopGroupFromInputValidator = shopGroupFromInputValidator;
-            _groupMemberRepository = groupMemberRepository;
-            _shopGroupWallPublishApi = shopGroupWallPublishApi;
+            _shopGroupBuilder = shopGroupBuilder;
         }
- 
+
 
         public ActionResult Index(long productId)
-        {     
+        {
             return View(GenerateModelForProductId(productId));
         }
 
@@ -50,53 +40,36 @@ namespace SywApplicationShopGroup.Web.UI.Controllers
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult CreateShopGroupAction(FormCollection formValue)
         {
-
-            if (!_shopGroupFromInputValidator.IsInputValid(formValue, new[]{InputFiled.Token, InputFiled.ProductId, InputFiled.GroupName})) return View("GroupCreateError");
-
-            var tokenStr = _shopGroupFromInputValidator.GetStringKey(InputFiled.Token, formValue);
-            _platformTokenProvider.Set(tokenStr);
-            
-            var user = _usersApi.Current();
-            if (user == null) return View("GroupCreateError");
-       
-            try
+           try
             {
-                var adminUser = _groupMemberRepository.GroupMember(user.Id);
-                var productId = _shopGroupFromInputValidator.GetLongKey( InputFiled.ProductId, formValue);
-                var shopGroupName = _shopGroupFromInputValidator.GetStringKey(InputFiled.GroupName, formValue);
-                var newShopGroup = new ShopGroup
-                                       {
-                                           Name = shopGroupName,
-                                           Admin = adminUser,
-                                           ProductId = productId
-                                       };
-                _shopGroupRepository.AddOrSaveShopGroup(newShopGroup);
-                _shopGroupWallPublishApi.PublishNewShopGroupStroy(newShopGroup);
+                var result = _shopGroupBuilder.CreateNewShopGroup(formValue);
 
-                return View("PostGroupCreate", GenerateModelForProductId(productId));
+                if (result != ShopGroupBuilder.BuildShopGroupResult.Success)
+                    return View("GroupCreateError", new BuildNewGroupErrorViewModel { ErrorCode = result }); 
+                
+               var productId = _shopGroupFromInputValidator.GetLongKey(InputFiled.ProductId, formValue);
+               return View("PostGroupCreate", GenerateModelForProductId(productId));
 
             }
             catch
             {
 
-                return View("GroupCreateError");
+                return View("GroupCreateError", new BuildNewGroupErrorViewModel{ErrorCode = ShopGroupBuilder.BuildShopGroupResult.FailGeneral});
             }
-           
-        }
 
+        }
 
         private ProductViewModel GenerateModelForProductId(long productId)
         {
             try
             {
-    
-                var user = _usersApi.Current();            
+
+                var user = _usersApi.Current();
                 return new ProductViewModel
                 {
                     UserName = user.Name,
                     UserId = user.Id,
                     ProductId = productId,
-                    UserState =  _authApi.GetUserState(),
                     SessionToken = _platformTokenProvider.Get()
                 };
             }
@@ -104,7 +77,7 @@ namespace SywApplicationShopGroup.Web.UI.Controllers
             {
                 return null;
             }
-          
+
         }
     }
 }

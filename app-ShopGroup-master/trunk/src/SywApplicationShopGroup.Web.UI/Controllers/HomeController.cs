@@ -55,7 +55,10 @@ namespace SywApplicationShopGroup.Web.UI.Controllers
             return View(ToModel(groupMember, currentUser, null));
         }
 
-       
+        public ActionResult JoinShopGroup(int shopGroupId)
+        {
+            return Redirect("/JoinSg/JoinGroup?groupId=" + shopGroupId);
+        }
 
         public ActionResult ShowShopGroup(int shopGroupId, int userId)
         {

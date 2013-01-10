@@ -82,6 +82,8 @@
     <Compile Include="AppActions\AppActionsApi.cs" />
     <Compile Include="Auth\ITokenResolver.cs" />
     <Compile Include="Repositorys\IGroupMemberResolver.cs" />
+    <Compile Include="Repositorys\IShopGroupBuilder.cs" />
+    <Compile Include="Repositorys\IShopGroupFromInputValidator.cs" />
     <Compile Include="WallPublish\IShopGroupWallPublishApi.cs" />
     <Compile Include="WallPublish\WallPublishApi.cs" />
     <Compile Include="Auth\AuthApi.cs" />

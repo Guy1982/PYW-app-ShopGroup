@@ -54,6 +54,7 @@
     <Compile Include="Common\WebClient\RequestException.cs" />
     <Compile Include="Configuration\IApplicationSettings.cs" />
     <Compile Include="Configuration\IPlatformSettings.cs" />
+    <Compile Include="GroupIdTokenProvider.cs" />
     <Compile Include="PlatformHashProvider.cs" />
     <Compile Include="PlatformProxy.cs" />
     <Compile Include="PlatformTokenProvider.cs" />

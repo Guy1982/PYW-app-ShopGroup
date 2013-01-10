@@ -10,6 +10,9 @@ namespace SywApplicationShopGroup.Domain.Configuration
 		public Uri ApiUrl { get { return Config.GetUri("platform:api-url"); } }
 		public Uri SecureApiUrl { get { return Config.GetUri("platform:secured-api-url"); } }
         public string SywAppLoginUrl { get { return Config.GetString("platform:syw-app-login-url"); } }
+        public string SywAppJoinGroupUrl { get { return Config.GetString("platform:syw-app-joinGroup-url"); } }
+
+        
 
 	}
 }

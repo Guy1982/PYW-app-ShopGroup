@@ -124,12 +124,13 @@
     <Content Include="Content\images\ajax-loader.gif" />
     <Content Include="Content\Site.css" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\IShopGroupFromInputValidator.cs" />
     <Compile Include="Controllers\JoinSgController.cs" />
     <Compile Include="Controllers\LandingController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
+    <Compile Include="Filters\GroupIdExtractorFilter.cs" />
     <Compile Include="Installers\ShopGroupClassesInstaller.cs" />
     <Compile Include="Models\AbstractHomeScreenModel.cs" />
+    <Compile Include="Models\BuildNewGroupErrorViewModel.cs" />
     <Compile Include="Models\JoinGroupScreenModel.cs" />
     <Compile Include="Models\ShopGroupHomeScreenModel.cs" />
     <Compile Include="Models\ProductViewModel.cs" />

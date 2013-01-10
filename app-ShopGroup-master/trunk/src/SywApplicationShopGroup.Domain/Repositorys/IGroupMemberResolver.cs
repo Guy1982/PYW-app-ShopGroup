@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Platform.Client;
+using SywApplicationShopGroup.Domain.Auth;
 using SywApplicationShopGroup.Domain.Entities;
 using SywApplicationShopGroup.Domain.Users;
 
@@ -23,6 +24,7 @@ namespace SywApplicationShopGroup.Domain.Repositorys
 
     public interface IGroupMemberResolver
     {
+        JoinStatus JoinUserToGroup(int groupId);
         JoinStatus JoinUserToGroup(long userId, int groupId);
         GroupMember GetGroupMember(long userId, bool createIfNeeded);
     }
@@ -33,16 +35,19 @@ namespace SywApplicationShopGroup.Domain.Repositorys
         private readonly IShopGroupRepository _shopGroupRepository;
         private readonly IGroupMemberRepository _groupMemberRepository;
         private readonly IPlatformTokenProvider _platformTokenProvider;
+        private readonly IAuthApi _authApi;
 
         public GroupMemberResolver(IUsersApi usersApi, IShopGroupRepository shopGroupRepository, IGroupMemberRepository groupMemberRepository,
-            IPlatformTokenProvider platformTokenProvider)
+            IPlatformTokenProvider platformTokenProvider, IAuthApi authApi)
         {
             _usersApi = usersApi;
             _shopGroupRepository = shopGroupRepository;
             _groupMemberRepository = groupMemberRepository;
             _platformTokenProvider = platformTokenProvider;
+            _authApi = authApi;
 
         }
+
         public GroupMember GetGroupMember(long userId, bool createIfNeeded)
         {
             var groupMember = _groupMemberRepository.GroupMember(userId);
@@ -61,6 +66,23 @@ namespace SywApplicationShopGroup.Domain.Repositorys
             }
             return groupMember;
         }
+
+        public JoinStatus JoinUserToGroup(int groupId)
+        {
+            try
+            {
+                if(_authApi.GetUserState() != UserState.Authorized) return JoinStatus.FailUserNeedToInstallApp;
+                
+                var currentUser = _usersApi.Current();
+                if(currentUser == null) return JoinStatus.FailGeneral;
+                return JoinUserToGroup(currentUser.Id, groupId);
+            }
+            catch
+            {
+                return JoinStatus.FailGeneral;
+            }
+        }
+
         public JoinStatus JoinUserToGroup(long userId, int groupId)
         {
             try

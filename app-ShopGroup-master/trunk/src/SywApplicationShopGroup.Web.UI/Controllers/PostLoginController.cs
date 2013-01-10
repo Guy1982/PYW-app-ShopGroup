@@ -86,7 +86,7 @@ namespace SywApplicationShopGroup.Web.UI.Controllers
             var appLinkParams = new[]
 			                    	{
 			                    		new KeyValuePair<string, object>("text", "Shop Group"),
-			                    		new KeyValuePair<string, object>("canvasHeight", "300"),
+			                    		new KeyValuePair<string, object>("canvasHeight", "600"),
                                         new KeyValuePair<string, object>("canvasWidth", "300"),
 			                    		new KeyValuePair<string, object>("level", "Product")
 			                    	};

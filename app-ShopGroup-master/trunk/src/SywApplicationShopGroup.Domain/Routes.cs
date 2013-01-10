@@ -19,6 +19,11 @@ namespace SywApplicationShopGroup.Domain
 			return _platformSettings.SywWebSiteUrl + String.Format(_platformSettings.SywAppLoginUrl, _applicationSettings.AppId);
 		}
 
+        public string JoinGroup(int groupId)
+        {
+            return _platformSettings.SywWebSiteUrl + String.Format(_platformSettings.SywAppJoinGroupUrl, _applicationSettings.AppId, groupId);
+        }
+
 		public Uri Dashboard()
 		{
 			return new Uri(_platformSettings.SywWebSiteUrl,"/app/" + _applicationSettings.AppId + "/r");

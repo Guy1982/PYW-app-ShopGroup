@@ -13,6 +13,7 @@ namespace SywApplicationShopGroup.Web.UI.Controllers
         private readonly IUsersApi _usersApi;
         private readonly IGroupMemberRepository _groupMemberRepository;
         private readonly ITokenResolver _tokenResolver;
+        private readonly IGroupIdProvider _groupIdProvider;
         private readonly IGroupMemberResolver _groupMemberResolver;
         private readonly IShopGroupFromInputValidator _shopGroupFromInputValidator;
         private readonly IPlatformTokenProvider _platformTokenProvider;
@@ -20,7 +21,7 @@ namespace SywApplicationShopGroup.Web.UI.Controllers
 
         public JoinSgController(IUsersApi usersApi, IGroupMemberRepository groupMemberRepository,IPlatformTokenProvider platformTokenProvider,
             ITokenResolver tokenResolver, IGroupMemberResolver groupMemberResolver, IShopGroupFromInputValidator shopGroupFromInputValidator,
-            IShopGroupRepository shopGroupRepository)
+            IShopGroupRepository shopGroupRepository, IGroupIdProvider groupIdProvider)
         {
             _usersApi = usersApi;
             _groupMemberRepository = groupMemberRepository;
@@ -29,6 +30,7 @@ namespace SywApplicationShopGroup.Web.UI.Controllers
             _shopGroupFromInputValidator = shopGroupFromInputValidator;
             _platformTokenProvider = platformTokenProvider;
             _shopGroupRepository = shopGroupRepository;
+            _groupIdProvider = groupIdProvider;
 
         }
         public ActionResult Index(long userId, string token)
@@ -41,6 +43,22 @@ namespace SywApplicationShopGroup.Web.UI.Controllers
             model.Status = JoinStatus.NewAction;
             return View(model);
         }
+
+        public ActionResult JoinGroup()
+        {
+            var model = GetModel();
+            if (!_tokenResolver.IsTokenResolvedForUser())
+            {
+                model.Status = JoinStatus.FailGeneral;
+                return View("Join", model);
+            }
+            var groupId = _groupIdProvider.Get();
+            model.Status = groupId <= 0 ? JoinStatus.FailGeneral : _groupMemberResolver.JoinUserToGroup(groupId);        
+            
+            return View("Join",model);
+
+        }
+
 
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Join(FormCollection formValue)

@@ -1,12 +1,14 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Platform.Client;
-using SywApplicationShopGroup.Domain.Entities;
 using SywApplicationShopGroup.Domain.Repositorys;
+using SywApplicationShopGroup.Domain.Users;
 
 namespace SywApplicationShopGroup.Domain.Auth
 {
     public interface ITokenResolver
     {
+        bool IsTokenResolvedForUser();
         bool IsTokenResolvedForUser(long userId);
     }
 
@@ -15,14 +17,34 @@ namespace SywApplicationShopGroup.Domain.Auth
         private readonly IPlatformTokenProvider _platformTokenProvider;
         private readonly IGroupMemberRepository _groupMemberRepository;
         private readonly IGroupMemberResolver _groupMemberResolver;
+        private readonly IUsersApi _usersApi;
 
         public TokenResolver(IPlatformTokenProvider platformTokenProvider, IGroupMemberRepository groupMemberRepository,
-            IGroupMemberResolver groupMemberResolver)
+            IGroupMemberResolver groupMemberResolver, IUsersApi usersApi)
         {
+            _usersApi = usersApi;
             _platformTokenProvider = platformTokenProvider;
             _groupMemberRepository = groupMemberRepository;
             _groupMemberResolver = groupMemberResolver;
         }
+        public bool IsTokenResolvedForUser()
+        {
+            try
+            {
+                var token = _platformTokenProvider.Get();
+                if (token == null || !token.Any()) return false;
+
+                var currentUser = _usersApi.Current();
+                AddTokenToUserIfNeeded(currentUser.Id, token);
+                return true;
+            }
+            catch 
+            {            
+                return false;
+            }
+         
+        }
+
         public bool IsTokenResolvedForUser(long userId)
         {
             var token = _platformTokenProvider.Get();

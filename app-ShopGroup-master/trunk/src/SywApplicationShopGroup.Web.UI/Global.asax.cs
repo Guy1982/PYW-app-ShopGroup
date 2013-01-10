@@ -2,6 +2,7 @@
 using System.Web.Routing;
 using Castle.Windsor;
 using Castle.Windsor.Installer;
+using Platform.Client;
 using SywApplicationShopGroup.Web.UI.Filters;
 using SywApplicationShopGroup.Web.UI.Plumbing;
 
@@ -18,6 +19,7 @@ namespace SywApplicationShopGroup.Web.UI
 		{
 			filters.Add(new HandleErrorAttribute());
 			filters.Add(new TokenExtractingFilter());
+            filters.Add(new GroupIdExtractorFilter());
 		}
 
 		public static void RegisterRoutes(RouteCollection routes)
@@ -30,6 +32,12 @@ namespace SywApplicationShopGroup.Web.UI
 				"post-login",
 				new { controller = "PostLogin", action = "Index" }
 			);
+            routes.MapRoute(
+                "JoinGroup",
+                "JoinGroup",
+                new { controller = "JoinSg", action = "JoinGroup" }
+            );
+
             routes.MapRoute(
                 "CreateShopGroupAction",
                 "CreateShopGroupAction",

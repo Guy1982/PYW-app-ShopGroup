@@ -31,7 +31,7 @@ namespace SywApplicationShopGroup.Domain.WallPublish
                                                          ImageUrl = imageUrl ?? ""
                                                      }); 
             }
-            catch 
+            catch (Exception e)
             {
                 return false;
             }       
