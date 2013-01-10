@@ -1,16 +1,14 @@
-﻿@model SywApplicationShopGroup.Web.UI.Models.ShopGroupHomeScreenModel
+﻿@model SywApplicationShopGroup.Web.UI.Models.AbstractHomeScreenModel
 <!DOCTYPE html>
 <html>
 <head>
     <title>@ViewBag.Title</title>
-    <link href="@Url.Content("~/static/css/Site.css")" rel="stylesheet" type="text/css" />
     <script src="@Url.Content("~/static/js/jquery-1.7.1.min.js")" type="text/javascript"></script>
     <script type="text/javascript" src="//www.shopyourway.com/platform/loader"></script>
     <link href="../Content/Site.css" rel="stylesheet" />
     <link rel="stylesheet" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" />
     <script src="http://code.jquery.com/jquery-1.8.3.js"></script>
     <script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
-    <link rel="stylesheet" href="/resources/demos/style.css" />
     <script>
         $(function () {
             $("#menu").menu();
@@ -31,22 +29,23 @@
                     <a href="#">My Shop Group</a>
                     <ul>
                         @{
-                            if (Model.ShopGroups == null || Model.ShopGroups.Count() == 0)
+                            if (Model == null || Model.GetGroups() == null || !Model.GetGroups().Any())
                             {
                                <li class="ui-state-disabled"><a href="#">No avilable Shop Groups</a></li> 
                             }
                             else
                             {
-                                foreach(var group in Model.ShopGroups)
+                                var groups = Model.GetGroups();
+                                foreach (var group in groups)
                                 {
-                                   <li><a href="../home/ShowShopGroup?shopGroupId=@group.Id&userId=@Model.Id">@group.Name</a></li> 
+                                   <li><a href="../home/ShowShopGroup?shopGroupId=@group.Id&userId=@Model.UserId()">@group.Name</a></li> 
                                 }
                             }
                         }
                        
                     </ul>
                 </li>
-                <li><a href="#">Join a Shop Group</a></li>
+                <li><a href="../JoinSG?userId=@Model.UserId()&token=@Model.SessionToken()">Join a Shop Group</a></li>
                 <li><a href="#">How Does It Work</a></li>
             </ul>
         </div>

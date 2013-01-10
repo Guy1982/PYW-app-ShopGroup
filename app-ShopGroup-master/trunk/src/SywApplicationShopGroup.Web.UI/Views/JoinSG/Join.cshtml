@@ -1,0 +1,60 @@
+﻿@using SywApplicationShopGroup.Domain.Auth
+@using SywApplicationShopGroup.Domain.Repositorys
+@model SywApplicationShopGroup.Web.UI.Models.JoinGroupScreenModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutHomePage.cshtml"; ;
+}
+
+<h2>Join Shop Group Result</h2>
+
+@if (Model == null)
+{
+    <p>
+        <label>
+            Oppps, there seems to be a problem with the application.<br />
+            Please close the window and try again</label><br />
+    </p>
+
+}
+else
+{
+   
+    <p>
+        Hi @Model.MemberName,
+        <br>
+        @{
+    switch (@Model.Status)
+    {
+        case JoinStatus.Success:
+            <label>
+                Sucess! you are now part of @Model.GroupName<br />
+                See Group details in the left Groups menu</label>
+            break;
+        case JoinStatus.FailUserAlreadyAmember:
+            <label>You are already a member of this group!</label>
+            break;
+        case JoinStatus.FailUserIsntConnectedToGroup:
+            <label>Sorry, in order to join an existing Shop Group you need to be following or followed by one of the group members. </label>
+            break;
+        case JoinStatus.FailGroupNotFound:
+            <label>Sorry, Group # @Model.GroupId wasn't found.</label>
+            break;
+        case JoinStatus.FailUserAnonymous:
+            <label>Sorry,you need to insatll Shop Group</label>
+            break;
+        case JoinStatus.FailPrivaceSettings:
+            <label>
+                Sorry, we were unable to join you to the Shop Group.
+Please make sure you are following or being followed by one of the team members and the he or she have their privacy settings set to public.
+            </label>
+            break;
+        default:
+            <label>Sorry, general error</label>
+            break;
+    }
+        }
+
+    </p>
+    
+}

@@ -80,6 +80,8 @@
   <ItemGroup>
     <Compile Include="ApiBase.cs" />
     <Compile Include="AppActions\AppActionsApi.cs" />
+    <Compile Include="Auth\ITokenResolver.cs" />
+    <Compile Include="Repositorys\IGroupMemberResolver.cs" />
     <Compile Include="WallPublish\IShopGroupWallPublishApi.cs" />
     <Compile Include="WallPublish\WallPublishApi.cs" />
     <Compile Include="Auth\AuthApi.cs" />
@@ -91,8 +93,8 @@
     <Compile Include="Entities\GroupMember.cs" />
     <Compile Include="Entities\ShopGroup.cs" />
     <Compile Include="ITimeFactory.cs" />
-    <Compile Include="AppActions\Mappings\GroupMemberMap.cs" />
-    <Compile Include="AppActions\Mappings\ShopGroupMap.cs" />
+    <Compile Include="Mappings\GroupMemberMap.cs" />
+    <Compile Include="Mappings\ShopGroupMap.cs" />
     <Compile Include="PlatformApiServices\IPlatformRoutes.cs" />
     <Compile Include="Products\ProductDto.cs" />
     <Compile Include="Products\ProductsApi.cs" />

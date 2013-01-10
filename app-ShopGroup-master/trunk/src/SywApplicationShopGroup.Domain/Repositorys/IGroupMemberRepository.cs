@@ -14,21 +14,20 @@ namespace SywApplicationShopGroup.Domain.Repositorys
         IList<GroupMember> GetAllGroupsMembers();
         IList<GroupMember> GetAllGroupsAdminMembers();
         GroupMember GroupMember(long memberId);
-
     }
 
     public class GroupMemberRepository : IGroupMemberRepository
     {
-        private readonly SessionProvider _sessionProvider;
+        private readonly ISessionProvider _sessionProvider;
 
-        public GroupMemberRepository()
+        public GroupMemberRepository(ISessionProvider sessionProvider)
         {
-            _sessionProvider = new SessionProvider();
+            _sessionProvider = sessionProvider;
         }
        
         public void AddOrSaveNewGroupMember(GroupMember member)
         {
-            _sessionProvider.WithSession(session => session.SaveOrUpdate(member));
+            _sessionProvider.WithSession(session => session.SaveOrUpdateCopy(member));
         }
 
         public IList<GroupMember> GetShoupGroupMembers(int groupId)
@@ -57,7 +56,7 @@ namespace SywApplicationShopGroup.Domain.Repositorys
         {
             return _sessionProvider.Query<GroupMember>(q => q.Where(x => x.SywId == memberId)).FirstOrDefault();
         } 
-      
+        
     }
   
 }

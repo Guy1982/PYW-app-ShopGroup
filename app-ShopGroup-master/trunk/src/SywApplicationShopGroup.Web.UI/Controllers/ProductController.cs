@@ -51,9 +51,9 @@ namespace SywApplicationShopGroup.Web.UI.Controllers
         public ActionResult CreateShopGroupAction(FormCollection formValue)
         {
 
-            if (!_shopGroupFromInputValidator.IsInputValid(formValue)) return View("GroupCreateError");
-            
-            var tokenStr = formValue["token"];
+            if (!_shopGroupFromInputValidator.IsInputValid(formValue, new[]{InputFiled.Token, InputFiled.ProductId, InputFiled.GroupName})) return View("GroupCreateError");
+
+            var tokenStr = _shopGroupFromInputValidator.GetStringKey(InputFiled.Token, formValue);
             _platformTokenProvider.Set(tokenStr);
             
             var user = _usersApi.Current();
@@ -62,15 +62,15 @@ namespace SywApplicationShopGroup.Web.UI.Controllers
             try
             {
                 var adminUser = _groupMemberRepository.GroupMember(user.Id);
-                var productId = _shopGroupFromInputValidator.GetProductId(formValue);
-                var shopGroupName = _shopGroupFromInputValidator.GetGroupName(formValue);
+                var productId = _shopGroupFromInputValidator.GetLongKey( InputFiled.ProductId, formValue);
+                var shopGroupName = _shopGroupFromInputValidator.GetStringKey(InputFiled.GroupName, formValue);
                 var newShopGroup = new ShopGroup
                                        {
                                            Name = shopGroupName,
                                            Admin = adminUser,
                                            ProductId = productId
                                        };
-                _shopGroupRepository.AddNewShopGroup(newShopGroup);
+                _shopGroupRepository.AddOrSaveShopGroup(newShopGroup);
                 _shopGroupWallPublishApi.PublishNewShopGroupStroy(newShopGroup);
 
                 return View("PostGroupCreate", GenerateModelForProductId(productId));
@@ -89,6 +89,7 @@ namespace SywApplicationShopGroup.Web.UI.Controllers
         {
             try
             {
+    
                 var user = _usersApi.Current();            
                 return new ProductViewModel
                 {
@@ -101,7 +102,6 @@ namespace SywApplicationShopGroup.Web.UI.Controllers
             }
             catch (Exception)
             {
-
                 return null;
             }
           

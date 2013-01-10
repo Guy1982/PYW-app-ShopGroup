@@ -3,6 +3,7 @@ using System.Web.Routing;
 using Castle.Windsor;
 using Castle.Windsor.Installer;
 using SywApplicationShopGroup.Web.UI.Filters;
+using SywApplicationShopGroup.Web.UI.Plumbing;
 
 namespace SywApplicationShopGroup.Web.UI
 {
@@ -29,6 +30,11 @@ namespace SywApplicationShopGroup.Web.UI
 				"post-login",
 				new { controller = "PostLogin", action = "Index" }
 			);
+            routes.MapRoute(
+                "CreateShopGroupAction",
+                "CreateShopGroupAction",
+                new { controller = "Product", action = "CreateShopGroupAction" }
+            );
 
 			routes.MapRoute(
 				"Default", // Route name

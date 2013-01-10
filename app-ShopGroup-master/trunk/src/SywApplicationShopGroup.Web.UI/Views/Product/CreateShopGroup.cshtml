@@ -44,7 +44,7 @@
 @if (Model == null)
 {
     <p>
-        <label>Session expired. Please close the window and try again</label><br />
+        <label>Oppps, there seems to be a problem with the application.<br /> Please close the window and try again</label><br />
          <input id="CloseShopGroupWindow" type="button" onclick="Platform.Canvas.closeDialog()" value="Close Window"></input>
     </p>
 
@@ -62,6 +62,5 @@ else
             <input type="checkbox" id="chkTOS" name="chkTOS" value="1" />I agree to the <a href="#">Terms and Conditions</a>...</span><br />
         <input type="submit" value="Create Group" name="btnCreateGroup" />
     </form>
-    <br />
 }
 

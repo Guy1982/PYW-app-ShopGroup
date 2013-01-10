@@ -9,7 +9,14 @@ using SywApplicationShopGroup.Domain.Entities;
 
 namespace SywApplicationShopGroup.Domain.Repositorys
 {
-    public class SessionProvider
+    public interface ISessionProvider
+    {
+        void WithSession(Action<ISession> action);
+        IList<T> Query<T>(Func<IQueryable<T>, IQueryable<T>> query);
+        IList<T1> QueryOver<T, T1>(Func<IQueryable<T>, IQueryable<T1>> query);
+
+    }
+    public class SessionProvider : ISessionProvider
     {
         public static readonly ISessionFactory SessionFactory = Create();
 
@@ -55,7 +62,7 @@ namespace SywApplicationShopGroup.Domain.Repositorys
                 using (var transaction = session.BeginTransaction())
                 {
                     var queryResult = query(session.Query<T>()).ToList<T1>();
-                    transaction.Commit();
+                    transaction.Commit();                 
                     return queryResult;
 
                 }

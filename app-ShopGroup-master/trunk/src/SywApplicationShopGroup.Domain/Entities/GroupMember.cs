@@ -4,6 +4,7 @@ namespace SywApplicationShopGroup.Domain.Entities
 {
     public class GroupMember
     {
+        static int count = 0;
         public virtual long SywId { get; set; }
         public virtual string Name { get; set; }
         public virtual string Token { get; set; }
@@ -11,9 +12,8 @@ namespace SywApplicationShopGroup.Domain.Entities
 
         public GroupMember()
         {
+            int y = count++;
            Groups = new List<ShopGroup>();
         }
-
-
     }
 }

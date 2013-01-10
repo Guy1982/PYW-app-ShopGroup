@@ -6,7 +6,7 @@ namespace SywApplicationShopGroup.Domain.Repositorys
 {
     public interface IShopGroupRepository
     {
-        void AddNewShopGroup(ShopGroup group);
+        void AddOrSaveShopGroup(ShopGroup group);
         ShopGroup GetShoupGroup(int groupId);
         IList<ShopGroup> GetAllShopGroups();
 
@@ -14,14 +14,14 @@ namespace SywApplicationShopGroup.Domain.Repositorys
 
     public class ShopGroupRepository : IShopGroupRepository
     {
-        private readonly SessionProvider _sessionProvider;
+        private readonly ISessionProvider _sessionProvider;
 
-        public ShopGroupRepository()
+        public ShopGroupRepository(ISessionProvider sessionProvider)
         {
-            _sessionProvider = new SessionProvider();
+            _sessionProvider = sessionProvider;
         }
        
-        public void AddNewShopGroup(ShopGroup group)
+        public void AddOrSaveShopGroup(ShopGroup group)
         {
             _sessionProvider.WithSession(session => session.SaveOrUpdate(group));
         }

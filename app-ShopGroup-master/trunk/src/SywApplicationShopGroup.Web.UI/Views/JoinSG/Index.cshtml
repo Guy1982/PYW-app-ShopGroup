@@ -1,0 +1,78 @@
+﻿@using SywApplicationShopGroup.Domain.Auth
+@model SywApplicationShopGroup.Web.UI.Models.JoinGroupScreenModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutHomePage.cshtml"; ;
+}
+
+<script type="text/javascript">
+    function CheckForm() {
+        var isValid = true;
+        
+        var Messages = "";
+      
+        var regex = /^([0-9][0-9]*)$/;
+        
+        if ($('#txtGroupMemberId').val() == "") {
+            Messages = "You must enetr a Shop Group ID\n";
+            isValid = false;
+        } else if (!regex.test($('#groupId').val())) {
+            Messages = "Please enter only numbers\n";
+            isValid = false;
+        }
+        
+ 
+        if ($('#chkTOS').is(':checked') == false) {
+            Messages = Messages +  "You must accept the TOS";
+            isValid = false;
+        }
+        
+        if (isValid == false)
+            {
+            alert(Messages);
+        }
+        else {
+            SetAjaxLoader();
+        }
+        return isValid;
+
+    }
+    
+    function SetAjaxLoader() {
+        $(".ajaxloader").show();
+        
+    }
+
+</script>
+
+<h2>Join a Shop Group</h2>
+
+@if (Model == null)
+{
+    <p>
+        <label>
+            Oppps, there seems to be a problem with the application.<br />
+            Please close the window and try again</label><br />
+    </p>
+
+}
+else
+{
+   
+    <p>
+        Hi @Model.MemberName,
+        <br>
+        To join an existing Shop Group please enter the Group ID below. <br>Please note that you need to flow or be followed by one of the group members in order to join the group.
+    </p>
+    
+    <div class="ajaxloader" style="display:none;" align="center"><img src="../../Content/images/ajax-loader.gif"/></div>
+    <form action="JoinSg/Join" method="POST" onsubmit="return CheckForm();">
+        <input type="hidden" id="userId" name="userId" value="@Model.UserId()">
+        <input type="hidden" id="token" name="token" value="@Model.Token">
+        <input type="number" id="groupId" name="groupId" /><br />
+        <span>
+            <input type="checkbox" id="chkTOS" name="chkTOS" value="1" />I agree to the <a href="#">Terms and Conditions</a>...</span><br />
+        <input type="submit" value="Join Shop Group" name="btnJoinGroup" />
+    </form>
+    
+}

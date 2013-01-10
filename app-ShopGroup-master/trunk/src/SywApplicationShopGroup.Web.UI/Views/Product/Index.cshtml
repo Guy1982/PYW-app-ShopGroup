@@ -1,6 +1,5 @@
 ﻿@using SywApplicationShopGroup.Domain.Auth
 @model SywApplicationShopGroup.Web.UI.Models.ProductViewModel
-
 @{
     ViewBag.Title = "Index";
     Layout = null;
@@ -8,25 +7,28 @@
 
 <h2>Index Shop Group Product</h2>
 
-@if (Model.UserState != UserState.Authorized)
+@if (Model == null)
 {
     <p>
-        <!--input id="CreateShopGroup" type="button" value="Create Shop Group"></!--input-->
+        <label>Oppps, there seems to be a problem with the application.<br />
+            Please close the window and try again</label><br />
+        <input id="CloseShopGroupWindow" type="button" onclick="Platform.Canvas.closeDialog()" value="Close Window"></input>
     </p>
 
 }
 else
 {
-    if (Model.UserState != UserState.Anonymous)
-    {
-        <p>Hi @Model.UserName, <br> In order to </p>
-    }
-    else
-    {
-         <p>Hi, <br> In order to create a Shop Group you need to install the Shop Group application </p>
-    }
-  
+   
     <p>
-        <input id="CreateShopGroup" type="button" onclick="window.location.href = 'Product/CreateShopGroup?token=@Model.SessionToken&productId=@Model.ProductId';" value="Create Shop Group"></input>
+        Hi @Model.UserName,
+        <br>
+        We at Shop Group want to give you more! 
+You can get extra discount or SWY reward point if you buy this product with your friends.
+Create a new Shop Group and start saving $
+    </p>
+    
+   
+    <p>
+        <input id="CreateShopGroup" type="button" onclick="window.location.href = 'Product/CreateShopGroup?token=@Model.SessionToken&productId=@Model.ProductId    ';" value="Create Shop Group"></input>
     </p>
 }

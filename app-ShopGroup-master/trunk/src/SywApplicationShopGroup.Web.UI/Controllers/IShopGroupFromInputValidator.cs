@@ -1,53 +1,85 @@
 ﻿using System;
-using System.Linq;
 using System.Web.Mvc;
 
 namespace SywApplicationShopGroup.Web.UI.Controllers
 {
+    public enum InputFiled
+    {
+        Token,
+        GroupName,
+        GroupId,
+        ProductId,
+        UserId
+    }
     public interface IShopGroupFromInputValidator
     {
-        bool IsInputValid(FormCollection formValue);
-        string GetToken(FormCollection formValue);
-        string GetGroupName(FormCollection formValue);
-        long GetProductId(FormCollection formValue);
+        bool IsInputValid(FormCollection formValue, InputFiled[] keys);
+        string GetStringKey(InputFiled key, FormCollection formValue);
+        long GetLongKey(InputFiled key, FormCollection formValue);
     }
 
     public class ShopGroupFromInputValidator : IShopGroupFromInputValidator
     {
-        public bool IsInputValid(FormCollection formValue)
+       
+        public bool IsInputValid(FormCollection formValue, InputFiled[] keys)
         {
-            var tokenStr = formValue["token"];
-            var groupName = formValue["txtGroupName"];
-            var productIdStr = formValue["productId"];
-
-            try
+            foreach (var inputFiled in keys)
             {
-                //Testing the convertion
-                Convert.ToInt32(productIdStr);
+                if (formValue[GetKeyValue(inputFiled)] == null )
+                {
+                    return false;
+                }
+
+                if(inputFiled.ToString().EndsWith("Id"))
+                {
+                    try
+                    {
+                        //Testing the convertion
+                        Convert.ToInt32(formValue[GetKeyValue(inputFiled)]);
+                    }
+                    catch
+                    {
+                        return false;
+                    }
+                }            
+            }
+
+            return true;
+        }
+        public string GetStringKey(InputFiled key, FormCollection formValue)
+        {
+            return formValue[GetKeyValue(key)];
+        }
+        public long GetLongKey(InputFiled key, FormCollection formValue)
+        {
+            try
+            {            
+                return Convert.ToInt32(formValue[GetKeyValue(key)]);
             }
             catch
             {
-                return false;
+                return 0;
             }
-
-            return tokenStr != null && groupName != null && groupName.Any();
         }
 
-        public string GetToken(FormCollection formValue)
+        private string GetKeyValue(InputFiled key)
         {
-            return formValue["token"];
+            switch (key)
+            {
+                case InputFiled.UserId:
+                    return "userId";
+                case InputFiled.GroupId:
+                    return "groupId";
+                case InputFiled.GroupName:
+                    return "txtGroupName";
+                case InputFiled.ProductId:
+                    return "productId";
+                case InputFiled.Token:
+                    return "token";
+                default:
+                    return "";
+            }
         }
-
-        public string GetGroupName(FormCollection formValue)
-        {
-            return formValue["txtGroupName"];
-        }
-
-        public long GetProductId(FormCollection formValue)
-        {
-            return Convert.ToInt32(formValue["productId"]);
-        }
-
     }
 
 

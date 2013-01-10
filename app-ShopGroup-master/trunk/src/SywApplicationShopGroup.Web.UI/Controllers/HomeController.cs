@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
 using System.Linq;
 using System.Web.Mvc;
 using Platform.Client;
@@ -16,7 +14,7 @@ namespace SywApplicationShopGroup.Web.UI.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly IApplicationSettings _applicationSettings;
+
         private readonly IPlatformTokenProvider _platformTokenProvider;
         private readonly IUsersApi _usersApi;
         private readonly IPlatformSettings _platformSettings;
@@ -24,14 +22,14 @@ namespace SywApplicationShopGroup.Web.UI.Controllers
         private readonly IGroupMemberRepository _groupMemberRepository;
         private readonly IProductsApi _productsApi;
         private readonly IAuthApi _authApi;
+        private readonly ITokenResolver _tokenResolver;
+        private readonly IGroupMemberResolver _groupMemberResolver;
 
 
-
-        public HomeController(IShopGroupRepository shopGroupRepository, IPlatformTokenProvider platformTokenProvider,IUsersApi usersApi,
-            IApplicationSettings applicationSettings, IProductsApi productsApi, IAuthApi authApi, IPlatformSettings platformSettings, IGroupMemberRepository groupMemberRepository)
+        public HomeController(IShopGroupRepository shopGroupRepository, IPlatformTokenProvider platformTokenProvider,IUsersApi usersApi, ITokenResolver tokenResolver,
+             IProductsApi productsApi, IAuthApi authApi, IPlatformSettings platformSettings, IGroupMemberRepository groupMemberRepository, IGroupMemberResolver groupMemberResolver)
         {
-    
-            _applicationSettings = applicationSettings;
+
             _platformTokenProvider = platformTokenProvider;
             _platformSettings = platformSettings;
             _usersApi = usersApi;
@@ -39,7 +37,8 @@ namespace SywApplicationShopGroup.Web.UI.Controllers
             _groupMemberRepository = groupMemberRepository;
             _productsApi = productsApi;
             _authApi = authApi;
-
+            _tokenResolver = tokenResolver;
+            _groupMemberResolver = groupMemberResolver;
         }
 
         public ActionResult Index()
@@ -49,30 +48,14 @@ namespace SywApplicationShopGroup.Web.UI.Controllers
                 return Redirect("/landing");
 
             var currentUser = _usersApi.Current();
-            var userToken = _platformTokenProvider.Get();
-            var groupMember = _groupMemberRepository.GroupMember((int)currentUser.Id);
-           
-            if (groupMember == null) 
-                ValidateGroupMember(out groupMember);
-            
-            groupMember.Token = userToken;
-            _groupMemberRepository.AddOrSaveNewGroupMember(groupMember);
+             var groupMember = _groupMemberResolver.GetGroupMember(currentUser.Id, true);
 
-            var currentUserFollowing = _usersApi.GetFollowing(currentUser.Id);
-            var currentUserFollowers = _usersApi.GetFollowers(currentUser.Id);
-
-            return View(ToModel(currentUser, null, currentUserFollowing, currentUserFollowers));
+            _tokenResolver.IsTokenResolvedForUser(currentUser.Id);
+        
+            return View(ToModel(groupMember, currentUser, null));
         }
 
-        private void ValidateGroupMember(out GroupMember groupMember)
-        {
-            var currentUser = _usersApi.Current();
-            groupMember = new GroupMember
-                              {
-                                  Name = currentUser.Name,
-                                  SywId = currentUser.Id
-                              };
-        }
+       
 
         public ActionResult ShowShopGroup(int shopGroupId, int userId)
         {
@@ -80,33 +63,23 @@ namespace SywApplicationShopGroup.Web.UI.Controllers
             _platformTokenProvider.Set(groupMember.Token);
 
             var currentUser = _usersApi.Current();
-            var currentUserFollowing = _usersApi.GetFollowing(currentUser.Id);
-            var currentUserFollowers = _usersApi.GetFollowers(currentUser.Id);
-            var group = _shopGroupRepository.GetShoupGroup(shopGroupId);
+           var group = _shopGroupRepository.GetShoupGroup(shopGroupId);
             var currentProduct = _productsApi.Get(new[] { group.ProductId }).FirstOrDefault();
 
-            return View(ToModel(currentUser, currentProduct, currentUserFollowing, currentUserFollowers));
+            return View(ToModel(groupMember,currentUser, currentProduct));
         }
 
-        private ShopGroupHomeScreenModel ToModel(UserDto userDto, ProductDto product, IEnumerable<UserDto> following = null, IEnumerable<UserDto> followers = null)
+        private ShopGroupHomeScreenModel ToModel(GroupMember groupMember, UserDto userDto, ProductDto product )
         {
-            var groupMember = _groupMemberRepository.GroupMember((int)userDto.Id);
-
             return new ShopGroupHomeScreenModel
                 {
                     Id = userDto.Id,
                     MemberName = userDto.Name,
                     ImageUrl = userDto.ImageUrl,
                     Product = product,
+                    Token = _platformTokenProvider.Get(),
                     ProfileUrl = new Uri(_platformSettings.SywWebSiteUrl, userDto.ProfileUrl),
-                    Following = following == null ?
-                        new ShopGroupHomeScreenModel[0] :
-                        following.Select(x => ToModel(x, product)).ToArray(),
-
-                    Followers = followers == null ?
-                           new ShopGroupHomeScreenModel[0] :
-                           followers.Select(x => ToModel(x, product)).ToArray(),
-
+                    
                     ShopGroups = groupMember != null ?
                             groupMember.Groups :
                             null

@@ -125,9 +125,12 @@
     <Content Include="Content\Site.css" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\IShopGroupFromInputValidator.cs" />
+    <Compile Include="Controllers\JoinSgController.cs" />
     <Compile Include="Controllers\LandingController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
-    <Compile Include="Installers\ControllersInstaller.cs" />
+    <Compile Include="Installers\ShopGroupClassesInstaller.cs" />
+    <Compile Include="Models\AbstractHomeScreenModel.cs" />
+    <Compile Include="Models\JoinGroupScreenModel.cs" />
     <Compile Include="Models\ShopGroupHomeScreenModel.cs" />
     <Compile Include="Models\ProductViewModel.cs" />
     <Compile Include="Models\InstallAppViewModel.cs" />
@@ -183,6 +186,8 @@
     <Content Include="Views\Shared\_LayoutHomePage.cshtml" />
     <Content Include="Views\Home\ShowShopGroup.cshtml" />
     <Content Include="Views\Product\GroupCreateError.cshtml" />
+    <Content Include="Views\JoinSG\Index.cshtml" />
+    <Content Include="Views\JoinSG\Join.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
