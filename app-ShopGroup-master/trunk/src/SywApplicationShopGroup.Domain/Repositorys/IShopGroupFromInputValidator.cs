@@ -75,7 +75,7 @@ namespace SywApplicationShopGroup.Domain.Repositorys
                 case InputFiled.ProductId:
                     return "productId";
                 case InputFiled.Token:
-                    return "groupId";
+                    return "token";
                 default:
                     return "";
             }

@@ -1,17 +1,20 @@
-﻿@model SywApplicationShopGroup.Web.UI.Models.AbstractHomeScreenModel
+﻿@using System.Web.Optimization
+@model SywApplicationShopGroup.Web.UI.Models.AbstractHomeScreenModel
 <!DOCTYPE html>
 <html>
 <head>
     <title>@ViewBag.Title</title>
     <script src="@Url.Content("~/static/js/jquery-1.7.1.min.js")" type="text/javascript"></script>
     <script type="text/javascript" src="//www.shopyourway.com/platform/loader"></script>
+    <meta name="viewport" content="width=device-width" />
     <link href="../Content/Site.css" rel="stylesheet" />
-    <link rel="stylesheet" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" />
+    <link href="../Content/GroupPage.css" rel="stylesheet" />
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css">
     <script src="http://code.jquery.com/jquery-1.8.3.js"></script>
     <script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
     <script>
         $(function () {
-            $("#menu").menu();
+            $("#group-sub-menu-hiden").show();
         });
     </script>
     <style>
@@ -20,47 +23,59 @@
         }
     </style>
 </head>
-<body>
-    <div class="page">
-        <div id="menu-bar" class="menu-bar">
-            <ul id="menu">
-                <li><a href="#">Create new Shop Group</a></li>
-                <li>
-                    <a href="#">My Shop Group</a>
-                    <ul>
-                        @{
-                            if (Model == null || Model.GetGroups() == null || !Model.GetGroups().Any())
-                            {
-                               <li class="ui-state-disabled"><a href="#">No avilable Shop Groups</a></li> 
-                            }
-                            else
-                            {
-                                var groups = Model.GetGroups();
-                                foreach (var group in groups)
-                                {
-                                   <li><a href="../home/ShowShopGroup?shopGroupId=@group.Id&userId=@Model.UserId()">@group.Name</a></li> 
+    <body>
+        <script type="text/javascript">
+            function showGroupMenu() {
+                var menu = document.getElementById("group-sub-menu");
+                menu.style.visibility = "inline";
+                menu.style.display = 'none';
+                menu.style.display = 'block';
+                
+            }
+            function hideGroupMenu() {
+                var menu = document.getElementById("group-sub-menu");
+                menu.style.visibility = "none";
+                menu.style.display = 'block';
+                menu.style.display = 'none';
+            }
+            </script>
+            <header>
+            <div class="main-menu">
+                <nav>
+                    <ul class="menu">
+                        <div class="menu-item" onmouseover="showGroupMenu()" onmouseout="hideGroupMenu()"><a class="group-item-link" href="#">My Shop Group</a>
+                            <div class="group-sub-menu" id="group-sub-menu">
+                                @{
+                                    if (Model == null || Model.GetGroups() == null || !Model.GetGroups().Any())
+                                    {
+                                        <div class="group-menu-item-disabled"><a href="#">No avilable Shop Groups</a></div> 
+                                    }
+                                    else
+                                    {
+                                        var groups = Model.GetGroups();
+                                        foreach (var group in groups)
+                                        {
+                                            <div class="group-menu-item"><a class="group-menu-item-link" href="../home/ShowShopGroup?shopGroupId=@group.Id&userId=@Model.UserId()">@group.Name</a></div> 
+                                        }
+                                    }
                                 }
-                            }
-                        }
-                       
+
+                            </div>
+
+                        </div>
+                        <div class="menu-item"><a class="group-item-link" href="../JoinSG?userId=@Model.UserId()&token=@Model.SessionToken()">Join a Shop Group</a></div>
+                        <div class="menu-item"><a class="group-item-link" href="#">Create new Shop Group</a></div>
+                        <div class="menu-item"><a class="group-item-link" href="#">How Does It Work</a></div>
                     </ul>
-                </li>
-                <li><a href="../JoinSG?userId=@Model.UserId()&token=@Model.SessionToken()">Join a Shop Group</a></li>
-                <li><a href="#">How Does It Work</a></li>
-            </ul>
-        </div>
-        <div id="main-page" class="main-page">
-            <div id="header">
-                <div id="title">
-                    <h1>Shop Group</h1>
-                </div>
+                </nav>
             </div>
+        </header>
+        <div id="main-page" class="main-page">
             <div id="main">
                 @RenderBody()
             </div>
             <div id="footer">
             </div>
         </div>
-    </div>
-</body>
+    </body>
 </html>

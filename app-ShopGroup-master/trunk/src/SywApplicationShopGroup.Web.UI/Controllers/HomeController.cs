@@ -52,7 +52,7 @@ namespace SywApplicationShopGroup.Web.UI.Controllers
 
             _tokenResolver.IsTokenResolvedForUser(currentUser.Id);
         
-            return View(ToModel(groupMember, currentUser, null));
+            return View(ToModel(groupMember, currentUser,null, null));
         }
 
         public ActionResult JoinShopGroup(int shopGroupId)
@@ -69,10 +69,10 @@ namespace SywApplicationShopGroup.Web.UI.Controllers
            var group = _shopGroupRepository.GetShoupGroup(shopGroupId);
             var currentProduct = _productsApi.Get(new[] { group.ProductId }).FirstOrDefault();
 
-            return View(ToModel(groupMember,currentUser, currentProduct));
+            return View(ToModel(groupMember,currentUser, currentProduct, group));
         }
 
-        private ShopGroupHomeScreenModel ToModel(GroupMember groupMember, UserDto userDto, ProductDto product )
+        private ShopGroupHomeScreenModel ToModel(GroupMember groupMember, UserDto userDto,ProductDto product, ShopGroup group )
         {
             return new ShopGroupHomeScreenModel
                 {
@@ -80,8 +80,10 @@ namespace SywApplicationShopGroup.Web.UI.Controllers
                     MemberName = userDto.Name,
                     ImageUrl = userDto.ImageUrl,
                     Product = product,
+                    Group = group,
                     Token = _platformTokenProvider.Get(),
                     ProfileUrl = new Uri(_platformSettings.SywWebSiteUrl, userDto.ProfileUrl),
+                    Followers = _usersApi.GetFollowers(userDto.Id),
                     
                     ShopGroups = groupMember != null ?
                             groupMember.Groups :

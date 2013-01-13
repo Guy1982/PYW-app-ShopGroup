@@ -121,6 +121,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\GroupPage.css" />
     <Content Include="Content\images\ajax-loader.gif" />
     <Content Include="Content\Site.css" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -146,6 +147,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
+    <Content Include="Images\chat.png" />
     <Content Include="packages.config" />
     <None Include="static\js\jquery-1.7.1.intellisense.js" />
     <Content Include="static\js\jquery-1.7.1.js" />

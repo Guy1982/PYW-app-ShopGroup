@@ -1,0 +1,232 @@
+﻿.group-page-header {
+    
+}
+
+.group-page-header-title {
+    float: left;
+    font-size: 30pt;
+    color: black;
+    margin-right: 30px;
+    padding-top: 10px;
+}
+
+.group-page-header-groupState {
+    margin-left: 20px;
+    margin-right: 20px;
+    height: 60px;
+    vertical-align: central;
+    float: left;
+    font-size: 18pt;
+    color: #a19b95;
+    vertical-align: middle; 
+    text-align: center;
+    display: table;
+    font-weight: bolder;
+    
+}
+
+.group-page-header-groupStatecurrent {
+    margin-left: 20px;
+    margin-right: 20px;
+    height: 60px;
+    vertical-align: middle; 
+    text-align: center;
+    float: left;
+    font-size: 18pt;
+    color: #6b6b6b;
+    display: table;
+    font-weight: bolder;
+   
+}
+
+
+
+.group-page-header-groupStatecurrent p {
+  display: table-cell; 
+  vertical-align: middle; 
+  text-align: center; 
+}
+.group-page-header-groupState p {
+  display: table-cell; 
+  vertical-align: middle; 
+  text-align: center; 
+}
+
+
+
+.Productcontainer {
+    width: 100%;
+    height: 220px;
+    padding: 3px;
+}
+
+
+.Productimage {
+    width: 250px;
+    height: 250px; /* add 20px for desciption */
+    float: left;
+    border: 2px solid black;
+}
+
+
+.Productimage_desc {
+    position: relative;
+    height: 20px;
+    float: left;
+    margin-top: 20px;
+}
+
+.product-name {
+    color: #6b6b6b;
+    font-size: 24pt;
+    margin-bottom: -20px;
+    margin-top: -5px;
+    float: left;
+}
+
+.product-price {
+    color: #6b6b6b;
+    font-size: 14pt;
+    margin-top: 15px;
+    margin-bottom: 10px;
+    float: left;
+    width: 100%;
+}
+.product-discount {
+    color: #ff7341;
+    font-size: 12pt;
+    margin-top: -5px;
+    margin-bottom: -5px;
+    float: left;
+}
+.product-discount-val {
+    color: #98c01e;
+    font-size: 12pt;
+    padding-top: -10px;
+}
+.Productdetails {
+    /*position:relative;*/
+    margin-left: 260px; /* add 10px to img width, will give us decent padding */
+}
+
+
+    .Productdetails p { /* Since i removed styling, this will add padding inbetween each of our paragraphs */
+        padding-bottom: 10px;
+    }
+
+    .menu {
+        font-size: medium;
+        font-style: italic;
+    }
+
+.group-member-list {
+    margin-top: 60px;
+    width:225px;
+    height: 200px;
+    border: 2px solid black;
+    float: left
+}
+
+.member-list-header {
+    color: #6b6b6b;
+    font-weight: bolder;
+    font-size: 16pt;
+}
+.members-list{
+    height: 190px;
+    width:100%;
+    overflow: auto;
+    margin-top: -10px;
+}
+.followers-list {
+    height:165px;
+    width:100%;
+    overflow: auto;
+}
+
+.group-member-list-item {
+    color: #6b6b6b;
+    font-weight: bold;
+    font-size: 13pt;
+}
+
+.group-chat {
+    margin-top: 65px;
+    padding-right: 20px;
+    float: left;
+    width: 500px;
+    height: 250px;
+}
+
+.send-invitation-list {
+      display: table;
+}   
+.send-invitation-btn {
+    border-bottom-left-radius: 25px 25px;
+    border-top-left-radius: 25px 25px;
+    border-top-right-radius: 25px 25px;
+    border-bottom-right-radius: 25px 25px;
+    float: left;
+    background-color: #f38d39;
+    width: 150px;
+    height: 60px;
+    margin-left: 45px;
+    color: #6b6b6b;
+    font-size: 13pt;
+    font-weight: bold;
+    display: table-cell;
+    margin-top: 15px;
+}
+
+.send-invitation-btn:hover{
+    border-bottom-left-radius: 25px 25px;
+    border-top-left-radius: 25px 25px;
+    border-top-right-radius: 25px 25px;
+    border-bottom-right-radius: 25px 25px;
+    float: left;
+    background-color: orange;
+    width: 150px;
+    height: 60px;
+    margin-left: 45px;
+    color: darkgray;
+    font-size: 13pt;
+    font-weight: bold;
+    display: table-cell;
+    margin-top: 15px;
+}
+.start-buying-container{
+    margin-top: 30px;
+    width: 200px;
+    height: 100px;
+}
+.strat-buying-btn {
+    border-bottom-left-radius: 25px 25px;
+    border-top-left-radius: 25px 25px;
+    border-top-right-radius: 25px 25px;
+    border-bottom-right-radius: 25px 25px;
+    background-color: #f38d39;
+    width: 150px;
+    height: 40px;
+    margin-left: 45px;
+    color: #6b6b6b;
+    font-size: 13pt;
+    font-weight: bold;
+    display: table-cell;
+    margin-top: 15px;
+}
+
+.strat-buying-btn:hover{
+    border-bottom-left-radius: 25px 25px;
+    border-top-left-radius: 25px 25px;
+    border-top-right-radius: 25px 25px;
+    border-bottom-right-radius: 25px 25px;
+    background-color: orange;
+    width: 150px;
+    height: 40px;
+    margin-left: 45px;
+    color: darkgray;
+    font-size: 13pt;
+    font-weight: bold;
+    display: table-cell;
+    margin-top: 15px;
+}

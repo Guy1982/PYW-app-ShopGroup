@@ -3,6 +3,9 @@ using System.Web.Routing;
 using Castle.Windsor;
 using Castle.Windsor.Installer;
 using Platform.Client;
+using Platform.Client.Common.Context;
+using SywApplicationShopGroup.Domain.AppActions;
+using SywApplicationShopGroup.Domain.Auth;
 using SywApplicationShopGroup.Web.UI.Filters;
 using SywApplicationShopGroup.Web.UI.Plumbing;
 
@@ -58,10 +61,10 @@ namespace SywApplicationShopGroup.Web.UI
 			RegisterGlobalFilters(GlobalFilters.Filters);
 			RegisterRoutes(RouteTable.Routes);
             BootstrapContainer();
-   
 		}
 
-        private static void BootstrapContainer()
+
+	    private static void BootstrapContainer()
         {
             Container = new WindsorContainer()
                 .Install(FromAssembly.This());

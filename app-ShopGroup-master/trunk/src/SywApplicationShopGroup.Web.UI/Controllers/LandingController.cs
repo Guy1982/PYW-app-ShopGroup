@@ -40,12 +40,7 @@ namespace SywApplicationShopGroup.Web.UI.Controllers
                 if (model.UserState != UserState.Anonymous)
                     model.UserName = _usersApi.Current().Name;
 
-                //GUYS- Will be removed!!
-
-                // This should be done only once - by a utility or service (using offline token of course). No need to do it for every user.
-                // For the purpose of the demonstration, this will be fine here (remember - big NO NO in production apps)
-                _appActionsApi.Register("Create Shop Group", 300, 300);
-	        }
+            }
 	        catch (Exception)
 	        {
                 model = null;

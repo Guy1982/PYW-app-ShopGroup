@@ -101,7 +101,6 @@ namespace SywApplicationShopGroup.Domain.Repositorys
                 var group = _shopGroupRepository.GetShoupGroup(groupId);
                 group.AddMember(groupMemebr);
                 _groupMemberRepository.AddOrSaveNewGroupMember(groupMemebr);
-                //_shopGroupRepository.AddOrSaveShopGroup(group);
 
                 return JoinStatus.Success;
             }

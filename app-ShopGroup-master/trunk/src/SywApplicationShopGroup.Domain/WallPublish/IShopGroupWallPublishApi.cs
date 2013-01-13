@@ -33,7 +33,6 @@ namespace SywApplicationShopGroup.Domain.WallPublish
             var adminUser = group.Admin;
             var productList = _productsApi.Get(new List<long> { group.ProductId });
             
-            var html = new StringBuilder();
             var link = "[Join Group Now](" + _routes.JoinGroup(group.Id)+ ")";
             var result = _wallPublishApi.PublishStory("Shop Group", adminUser.Name + " had created new Shop Group: " + group.Name +". "+ link , productList[0].ImageUrl);
         }

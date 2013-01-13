@@ -12,7 +12,12 @@ namespace SywApplicationShopGroup.Web.UI.Models
         public string Token { get; set; }
         public string GroupName { get; set; }
         public JoinStatus Status { get; set; }
+        public PageId PageId { get; set; }
 
+        public JoinGroupScreenModel()
+        {
+            PageId = PageId.JoinAgroup;
+        }
         //Used in the main page layout
         public IList<ShopGroup> ShopGroups { get; set; }
 
@@ -28,6 +33,11 @@ namespace SywApplicationShopGroup.Web.UI.Models
         public override string SessionToken()
         {
             return Token;
+        }
+
+        public override PageId GetPageId()
+        {
+            return PageId;
         }
     }
 }

@@ -1,50 +1,168 @@
-﻿@model SywApplicationShopGroup.Web.UI.Models.ShopGroupHomeScreenModel
+﻿@using SywApplicationShopGroup.Domain.Entities
+@model SywApplicationShopGroup.Web.UI.Models.ShopGroupHomeScreenModel
 @{
     ViewBag.Title = "title";
     Layout = "~/Views/Shared/_LayoutHomePage.cshtml";
 }
 
-<h2>title</h2>
+<div class="group-page-header">
+    @{
+        <div class="group-page-header-title">@Model.Group.Name - #@Model.Group.Id</div>
+        if (Model.Group.Status == GroupState.Open)
+        {
+        <div class="group-page-header-groupStatecurrent">
+            <p>Group Open</p>
+        </div>
+        <div class="group-page-header-groupState">
+            <p>> </p>
+        </div>
+        <div class="group-page-header-groupState">
+            <p>Start Buying </p>
+        </div>
+        <div class="group-page-header-groupState">
+            <p>> </p>
+        </div>
+        <div class="group-page-header-groupState">
+            <p>Group Closed</p>
+        </div>
+        }
+        else if (Model.Group.Status == GroupState.Buying)
+        {
+        <div class="group-page-header-groupState">
+            <p>Group Open</p>
+        </div>
+        <div class="group-page-header-groupState">
+            <p>> </p>
+        </div>
+        <div class="group-page-header-groupStatecurrent">
+            <p>Start Buying </p>
+        </div>
+        <div class="group-page-header-groupState">
+            <p>> </p>
+        </div>
+        <div class="group-page-header-groupState">
+            <p>Group Closed</p>
+        </div>
+        }
+        else
+        {
+        <div class="group-page-header-groupState">
+            <p>Group Open</p>
+        </div>
+        <div class="group-page-header-groupState">
+            <p>> </p>
+        </div>
+        <div class="group-page-header-groupState">
+            <p>Start Buying </p>
+        </div>
+        <div class="group-page-header-groupState">
+            <p>> </p>
+        </div>
+        <div class="group-page-header-groupStatecurrent">
+            <p>Group Closed</p>
+        </div>
+        }
+    }
+
+</div>
 
 <div class="Productcontainer">
-
-    <div>
-
-        <div class="Productimage">
-            @{
-                if (@Model.Product != null)
-                {
-                <img src="@Model.Product.ImageUrl" width="200px" height="200px"/>
-                }
+    <div class="Productimage">
+        @{
+            if (@Model.Product != null)
+            {
+            <img src="@Model.Product.ImageUrl" width="250px" height="250px"/>
             }
-        </div>
-
-
-
-        <div class="Productdetails">
-            @{
-                if (Model.Product != null)
-                {
-
-                <p>Product Name:@Model.Product.Name</p>
-
-                <p>Price:@Model.Product.Price </p>
-
-                <p>Product Page:@Model.Product.ProductUrl</p>
-                }
-                else
-                {
-                <p>Product detiles not avilable</p>
-                }
-            }
-
-        </div>
-        <br />
-
+        }
     </div>
 
-    <div class="Productimage_desc">This is the description This is the description This is the description</div>
+    <div class="Productdetails">
+        @{
+            if (Model.Product != null)
+            {
+            <p class="product-name">@Model.Product.Name</p>
+            <p class="product-price">Reg. Price:@Model.Product.Price </p>
+                foreach (var discountOption in Model.DiscountTable)
+                {
+            <p class="product-discount">
+                If @discountOption.Key members will buy, you will each get -
+                <label class="product-discount-val">@discountOption.Value</label>
+            </p>
+                }
+
+            }
+            else
+            {
+            <p>Product detiles not avilable</p>
+            }
+        }
+    </div>
+</div>
+
+<div class="start-buying-container">
+     <form action="CreateShopGroupAction" method="POST">
+        <input type="hidden" id="token" name="token" value="">
+        <input type="hidden" id="productId" name="productId" value="">
+        <label>Change group state to buying!</label><br />
+       <input class="strat-buying-btn" type="submit" value="Create Group" name="btnCreateGroup" />
+    </form>
+</div>
 
 
+<fieldset class="group-member-list">
+    <legend class="member-list-header">Group Members: #@Model.Group.Members.Count</legend>
+    <div class="members-list">
+        <ul>
+            @{
+                foreach (var member in Model.Group.Members)
+                {
+                <li class="group-member-list-item">@member.Name</li>
+                }
 
+                for (int i = 0; i < 10; i++)
+                {
+                    <li class="group-member-list-item">Memebr Name</li>
+                }
+                
+
+            }
+        </ul>
+    </div>
+</fieldset>
+<div class="group-chat">
+    <img src="../../Images/chat.png" width="500px" height="250px" />
+</div>
+
+
+<div class="send-invitation-list">
+    <fieldset class="group-member-list">
+        <legend class="member-list-header">My Followers</legend>
+        <div class="followers-list">
+            <ul>
+                @{
+                    if (Model.Followers != null)
+                    {
+
+
+                        foreach (var follower in Model.Followers)
+                        {
+                    <li class="group-member-list-item">
+                        <input type="checkbox" />@follower.Name</li>
+                        }
+                    }
+                    else
+                    {
+                    <li class="group-member-list-item">You dont have any followers</li>
+                    }
+                    for (int i = 0; i < 10; i++)
+                    {
+                     <li class="group-member-list-item">
+                        <input type="checkbox" />Friend Name</li>
+                    }
+
+                }
+            </ul>
+        </div>
+    </fieldset>
+    <button class="send-invitation-btn">Send invitation</button>
 </div>

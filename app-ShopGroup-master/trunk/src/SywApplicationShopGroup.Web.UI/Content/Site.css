@@ -3,12 +3,99 @@
     float: left;
 }
 
+nav.menu ul li {
+float: left;
+height: 42px;
+border-right: 1px solid #B6B8B7;
+}
+
+.main-menu {
+    margin-top: -20px;
+    height: 60px;
+    width: 100%;
+    background-color: white;
+    color: #6b6b6b
+    
+}
+
+.group-sub-menu {
+    padding-top: 15px;
+    display: none;
+    z-index:99;
+    position: fixed;
+    background-color: white;
+    height: auto
+}
 .main-page {
-    background-color: #00ffee;
-    height: 100%;
+    background-color: #f8f6f3;
+    height: auto;
+    width: auto;
     float: left;
     padding-left: 20px;
     padding-right: 20px;
+    z-index: 1;
+}
+
+.menu-item {
+    margin-top: 10px;
+    margin-right: 30px;
+    float: left;
+    height: 100%;
+    text-decoration: none;
+
+}
+
+.group-menu-item {
+    color: #f8f6f3;
+    font-size: larger;
+    width: 100%;
+    padding-left: -30px;
+    padding-right: -50px;
+}
+
+
+.group-menu-item:hover {
+    color: white;
+    font-size: larger;
+    width: 100%;
+    background-color: black;
+    padding-left: -30px;
+    padding-right: -50px;
+}
+
+.group-menu-item-link{
+    color: #a19b95;
+    font-size: x-large;
+    font-family: inherit;
+    height: 100%;
+    width: 100%;
+    padding-left: 30px;
+    padding-right: 50px;
+    text-decoration: none;
+    font-weight: bolder;
+}
+
+
+.group-item-link{
+    color: #6b6b6b;
+    font-size: x-large;
+    font-family: inherit;
+    height: 100%;
+    width: 100%;
+    text-decoration: none;
+    font-weight: bolder;
+    font-size: 18pt;
+}
+
+.group-item-link:hover{
+    color: black;
+    font-size: x-large;
+    font-family: inherit;
+    height: 100%;
+    width: 100%;
+    text-decoration: none;
+    font-weight: bolder;
+    font-size: 18pt;
 }
 
 body {
@@ -20,49 +107,9 @@ body {
     font-weight: normal;
     font-style: normal;
     text-decoration: none;
+    background-color: #f8f6f3;
 }
 
 
 
 
-.Productcontainer {
-    width: 405px;
-    height: 320px;
-    border: 1px solid black;
-    position: relative;
-    margin: 10px;
-    padding: 15px;
-}
-
-
-.Productimage {
-    background: blue;
-    width: 200px;
-    height: 200px; /* add 20px for desciption */
-    position: relative;
-    float: left;
-}
-
-
-.Productimage_desc {
-    position: relative;
-    height: 20px;
-    float: left;
-    margin-top: 20px;
-}
-
-
-.Productdetails {
-    /*position:relative;*/
-    margin-left: 210px; /* add 10px to img width, will give us decent padding */
-}
-
-
-    .Productdetails p { /* Since i removed styling, this will add padding inbetween each of our paragraphs */
-        padding-bottom: 10px;
-    }
-
-    .menu {
-        font-size: medium;
-        font-style: italic;
-    }
