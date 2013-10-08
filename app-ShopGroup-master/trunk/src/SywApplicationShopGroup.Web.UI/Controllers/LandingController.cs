@@ -11,7 +11,6 @@ namespace SywApplicationShopGroup.Web.UI.Controllers
     public class LandingController : Controller
     {
         private readonly Routes _routes;
-		
         private readonly IAuthApi _authApi;
         private readonly IUsersApi _usersApi;
         private readonly IAppActionsApi _appActionsApi;
